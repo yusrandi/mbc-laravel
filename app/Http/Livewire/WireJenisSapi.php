@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class WireJenisSapi extends Component
 {
-    public $selectedItemId, $jenis, $ket_jenis;
+    public $selectedItemId, $jenis, $ket_jenis, $searchTerm;
     protected $rules = [
         'jenis' => 'required|string|max:255',
         'ket_jenis' => 'required|max:255',
@@ -20,10 +20,25 @@ class WireJenisSapi extends Component
         'delete',
         'cancelled'
     ];
+
+    public function resultData()
+    {
+        return JenisSapi::orderBy('jenis', 'ASC')
+        ->where(function ($query){
+            if($this->searchTerm != ""){
+                $query->where('jenis','like','%'.$this->searchTerm.'%');
+                $query->orWhere('ket_jenis','like','%'.$this->searchTerm.'%');
+                
+            }
+        })
+        ->get();
+
+
+    }
     public function render()
     {
         return view('livewire.wire-jenis-sapi',[
-            'datas' => JenisSapi::orderBy('jenis', 'ASC')->get()
+            'datas' => $this->resultData()
         ]);
     }
 

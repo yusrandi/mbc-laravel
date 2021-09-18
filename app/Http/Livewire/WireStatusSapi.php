@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class WireStatusSapi extends Component
 {
-    public $sapi_id, $status, $ket_status, $selectedItemId;
+    public $sapi_id, $status, $ket_status, $selectedItemId, $searchTerm, $sapiId;
 
     protected $rules = [
         'sapi_id' => 'required',
@@ -23,10 +23,26 @@ class WireStatusSapi extends Component
         'delete',
         'cancelled'
     ];
+
+    public function resultData()
+    {
+        return StatusSapi::with('sapi')->orderBy('sapi_id')
+         ->where(function ($query){
+            if($this->searchTerm != ""){
+                $query->where('status','like','%'.$this->searchTerm.'%');
+                $query->orWhere('ket_status','like','%'.$this->searchTerm.'%');  
+            }
+
+            if($this->sapiId != null){
+                $query->Where('sapi_id','like','%'.$this->sapiId.'%');
+            }
+        })
+        ->get();
+    }
     public function render()
     {
         return view('livewire.wire-status-sapi',[
-            'statussapis' => StatusSapi::with('sapi')->orderBy('sapi_id')->get(),
+            'statussapis' => $this->resultData(),
             'sapis' => Sapi::orderBy('nama_sapi')->get()
         ]);
     }

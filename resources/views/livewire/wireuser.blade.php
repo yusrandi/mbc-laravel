@@ -76,7 +76,13 @@
      <div class="col-xl-9 col-lg-8">
          <div class="card">
              <div class="card-header">
-                 <div class="card-title">Tabel Pengguna</div>
+                 <div class="col-6">
+                     <div class="card-title">Tabel Pengguna</div>
+                 </div>
+                 <div class="col-6">
+                     <input wire:model="searchTerm" type="search" class="form-control header-search"
+                         placeholder="Search…" aria-label="Search">
+                 </div>
              </div>
              <div class="card-body">
                  <div class="table-responsive">

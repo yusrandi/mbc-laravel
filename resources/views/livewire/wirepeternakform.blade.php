@@ -93,6 +93,18 @@
                         <small class="mt-2 text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+                <div class="form-group">
+                    <label class="form-label">Pendamping<span class="text-danger">*</span></label>
+                    <select class="custom-select" wire:model="user_id">
+                        <option value="">Please Choose</option>
+                        @foreach ($users as $item)
+                            <option value="{{ $item->id }}"> {{ $item->name }} </option>
+                        @endforeach
+                    </select>
+                    @error('user_id')
+                        <small class="mt-2 text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
             </form>
         </div>
     </div>

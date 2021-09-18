@@ -12,6 +12,6 @@ class PeriksaKebuntingan extends Model
     protected $guarded = [];
     public function sapi()  
     {
-        return $this->belongsTo(Sapi::class);
+        return $this->belongsTo(Sapi::class)->with(['peternak','jenis_sapi']);
     }
 }

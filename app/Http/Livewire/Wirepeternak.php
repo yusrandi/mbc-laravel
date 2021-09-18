@@ -12,7 +12,7 @@ use Livewire\Component;
 class Wirepeternak extends Component
 {
     
-    public $selectedItemId;
+    public $selectedItemId, $searchTerm, $userId;
 
     protected $listeners = [
         'confirmed',
@@ -22,10 +22,28 @@ class Wirepeternak extends Component
         'isError',
         'refreshParent'=>'$refresh',
     ];
+    public function resultData()
+    {
+        return Peternak::with('user')
+        ->orderBy('nama_peternak','ASC')
+        ->where(function ($query){
+            if($this->searchTerm != ""){
+                $query->where('nama_peternak','like','%'.$this->searchTerm.'%');
+            } 
+            
+            if($this->userId != null){
+                $query->Where('user_id','like','%'.$this->userId.'%');
+            }
+        })
+        ->get();
+    }
     public function render()
     {
+        
         return view('livewire.wirepeternak',[
-            'peternaks' => Peternak::latest()->get(),
+            'peternaks' => $this->resultData(),
+            'users' => User::where('hak_akses',2)->get()
+
         ]);
     }
 

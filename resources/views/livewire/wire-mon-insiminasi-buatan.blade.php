@@ -1,6 +1,63 @@
  <div class="row">
      <div class="col-xl-3 col-lg-4">
+         <div class="card">
+             <div class="card-header">
+                 <div class="card-title">Filter Pencarian</div>
+             </div>
+             <div class="card-body">
+                 <div class="form-group">
+                     <label>Tanggal</label>
+                     <div wire:ignore class="input-group date mb-2" id="appointmentDateStart"
+                         data-target-input="nearest" data-appointmentdatestart="@this">
+                         <input type="text" class="form-control datetimepicker-input"
+                             data-target="#appointmentDateStart" id="appointmentDateStartInput"
+                             data-toggle="datetimepicker" placeholder="Start Date">
 
+                     </div>
+                     <div wire:ignore class="input-group date" id="appointmentDateEnd" data-target-input="nearest"
+                         data-appointmentdateend="@this">
+                         <input type="text" class="form-control datetimepicker-input" data-target="#appointmentDateEnd"
+                             id="appointmentDateEndInput" data-toggle="datetimepicker" placeholder="Date To">
+
+                     </div>
+                 </div>
+
+                 <div class="form-group" hidden>
+                     <label>Pencarian</label>
+                     <input wire:model="searchTerm" type="search" class="form-control" placeholder="Search…"
+                         aria-label="Search">
+                 </div>
+                 <div class="form-group">
+                     <label>Pilih Sapi</label>
+                     <select class="custom-select" wire:model="sapiId">
+                         <option value="">Please Choose</option>
+                         @foreach ($sapis as $item)
+                             <option value="{{ $item->id }}"> {{ $item->nama_sapi }} </option>
+                         @endforeach
+                     </select>
+                 </div>
+                 <div class="form-group">
+                     <label>Pilih Pendamping</label>
+                     <select class="custom-select" wire:model="userId">
+                         <option value="">Please Choose</option>
+                         @foreach ($users as $item)
+                             <option value="{{ $item->id }}"> {{ $item->name }} </option>
+                         @endforeach
+                     </select>
+                 </div>
+                 <div class="form-group">
+                     <label class="form-label">Pilih Strow<span class="text-danger">*</span></label>
+                     <select class="custom-select" wire:model="strowId">
+                         <option value="">Please Choose</option>
+                         @foreach ($strows as $item)
+                             <option value="{{ $item->id }}"> {{ $item->kode_batch }} </option>
+                         @endforeach
+                     </select>
+                 </div>
+
+             </div>
+
+         </div>
          <div class="card">
              <div class="card-header">
                  <div class="card-title">Tambah Insiminasi Buatan</div>
@@ -77,6 +134,7 @@
                                      <th>Dosis IB</th>
                                      <th>Strow</th>
                                      <th>Sapi</th>
+                                     <th>Pendamping</th>
                                      <th class="text-right">Aksi</th>
                                  </tr>
                              </thead>
@@ -88,6 +146,7 @@
                                          <td>{{ $item->dosis_ib }}</td>
                                          <td>{{ $item->strow->kode_batch }}</td>
                                          <td>{{ $item->sapi->nama_sapi }}</td>
+                                         <td>{{ $item->sapi->peternak->user->name }}</td>
                                          <td class="text-right">
                                              <i wire:click="selectedItem({{ $item->id }},'update')"
                                                  class="fe fe-edit f-16 btn btn-success" style="cursor:pointer"></i>

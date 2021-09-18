@@ -1,14 +1,15 @@
 <?php
-
 namespace App\Http\Livewire;
 
 use App\Models\Performa;
 use App\Models\Sapi;
+use App\Models\User;
 use Livewire\Component;
 
 class WireMonPerforma extends Component
 {
     public $selectedItemId, $tanggal_performa, $tinggi_badan, $berat_badan, $panjang_badan, $lingkar_dada, $bsc, $sapi_id;
+    public $startDate, $endDate, $sapiId, $userId, $searchTerm;
 
      protected $rules = [
         'tanggal_performa' => 'required',
@@ -32,11 +33,49 @@ class WireMonPerforma extends Component
         'refreshParent'=>'$refresh',
     ];
 
+    public function mount()
+    {
+        date_default_timezone_set("Asia/Makassar");
+        $this->startDate = now()->subDays(30)->format('Y/m/d');
+        $this->endDate = now()->format('Y/m/d');
+
+    }
+
+    public function resultData()
+    {
+        // dd("start ".$this->startDate.", end ".$this->endDate);
+
+        $haha = $this->userId;
+        return Performa::with('sapi')
+        ->where(function ($query){
+            // if($this->searchTerm != ""){
+            //     $query->where('metode','like','%'.$this->searchTerm.'%');
+            //     $query->orWhere('hasil','like','%'.$this->searchTerm.'%');
+                
+            // }
+            if($this->sapiId != null){
+                $query->Where('sapi_id','like','%'.$this->sapiId.'%');
+            }
+            // if($this->statusId != null){
+            //     $query->Where('status','like','%'.$this->statusId.'%');
+            // }
+            
+        })
+        ->whereHas('sapi.peternak', function($q) use($haha) {
+            if($haha != null){
+                $q->where('user_id', $haha);
+            }
+        })
+        ->WhereBetween('tanggal_performa',[$this->startDate, $this->endDate])
+        ->get();
+    }
+
     public function render()
     {
         return view('livewire.wire-mon-performa',[
             'sapis' => Sapi::orderBy('nama_sapi','ASC')->get(),
-            'perfromas' => Performa::with('sapi')->latest()->get()
+            'perfromas' => $this->resultData(),
+            'users' => User::where('hak_akses',2)->get()
         ]);
     }
     public function selectedItem($itemId, $action){

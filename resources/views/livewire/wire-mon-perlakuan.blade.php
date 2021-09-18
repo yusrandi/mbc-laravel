@@ -1,12 +1,53 @@
  <div class="row">
-     <div class="col-6 mb-4">
+     <div class="col-12 mb-4">
+
          <button wire:click="create" class="btn btn-primary"><i class="fe fe-plus"></i>
              Tambahkan Perlakuan</button>
+
      </div>
+
      <div class="col-xl-12 col-lg-12">
          <div class="card">
              <div class="card-header">
-                 <div class="card-title">Tabel Perlakuan</div>
+
+                 <div class="col">
+                     <div class="card-title">Tabel Perlakuan</div>
+                 </div>
+                 <div class="col">
+                     <div wire:ignore class="input-group date" id="appointmentDateStart" data-target-input="nearest"
+                         data-appointmentdatestart="@this">
+                         <input type="text" class="form-control datetimepicker-input"
+                             data-target="#appointmentDateStart" id="appointmentDateStartInput"
+                             data-toggle="datetimepicker" placeholder="Start Date">
+
+                     </div>
+
+                 </div>
+                 <div class="col">
+                     <div wire:ignore class="input-group date" id="appointmentDateEnd" data-target-input="nearest"
+                         data-appointmentdateend="@this">
+                         <input type="text" class="form-control datetimepicker-input" data-target="#appointmentDateEnd"
+                             id="appointmentDateEndInput" data-toggle="datetimepicker" placeholder="Date To">
+
+                     </div>
+                 </div>
+                 <div class="col">
+                     <select class="custom-select" wire:model="sapiId">
+                         <option value="">Pilih Sapi</option>
+                         @foreach ($sapis as $item)
+                             <option value="{{ $item->id }}"> {{ $item->nama_sapi }} </option>
+                         @endforeach
+                     </select>
+
+                 </div>
+                 <div class="col">
+                     <select class="custom-select" wire:model="userId">
+                         <option value="">Pilih Pendamping</option>
+                         @foreach ($users as $item)
+                             <option value="{{ $item->id }}"> {{ $item->name }} </option>
+                         @endforeach
+                     </select>
+                 </div>
              </div>
              <div class="card-body">
                  <div class="table-responsive">
@@ -16,6 +57,7 @@
                              <thead>
                                  <tr>
                                      <th>#</th>
+                                     <th>Pendamping</th>
                                      <th>sapi</th>
                                      <th>Tgl Perlakuan</th>
                                      <th>Jenis Obat</th>
@@ -35,6 +77,7 @@
                                  @foreach ($perlakuans as $item)
                                      <tr>
                                          <td>{{ $loop->iteration }}</td>
+                                         <td>{{ $item->sapi->peternak->user->name }}</td>
                                          <td>{{ $item->sapi->nama_sapi }}</td>
                                          <td>{{ $item->tgl_perlakuan }}</td>
                                          <td>{{ $item->jenis_obat }}</td>

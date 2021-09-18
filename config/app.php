@@ -177,6 +177,10 @@ return [
 
         Intervention\Image\ImageServiceProvider::class,
 
+        App\Providers\ConstCobaProvider::class,
+
+        
+
     ],
 
     /*
@@ -232,6 +236,9 @@ return [
 
         'Image' => Intervention\Image\Facades\Image::class,
 
+        'Constcoba' => App\Helper\ConstcobaFacade::class,
+        
+        
     ],
 
 ];

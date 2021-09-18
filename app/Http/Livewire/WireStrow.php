@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class WireStrow extends Component
 {
-    public $sapi_id, $kode_batch, $batch, $selectedItemId;
+    public $sapi_id, $kode_batch, $batch, $selectedItemId, $searchTerm, $sapiId;
 
     protected $rules = [
         'sapi_id' => 'required',
@@ -24,11 +24,25 @@ class WireStrow extends Component
         'delete',
         'cancelled'
     ];
+    public function resultData()
+    {
+        return Strow::orderBy('kode_batch', 'ASC')
+        ->where(function ($query){
+            if($this->searchTerm != ""){
+                $query->where('batch','like','%'.$this->searchTerm.'%');
+                $query->orWhere('kode_batch','like','%'.$this->searchTerm.'%');  
+            }
 
+            if($this->sapiId != null){
+                $query->Where('sapi_id','like','%'.$this->sapiId.'%');
+            }
+        })
+        ->get();
+    }
     public function render(){
         return view('livewire.wire-strow',[
             'sapis' => Sapi::orderBy('nama_sapi')->get(),
-            'strows' => Strow::orderBy('kode_batch', 'ASC')->get()
+            'strows' => $this->resultData()
         ]);
     }
 

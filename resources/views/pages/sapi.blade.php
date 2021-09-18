@@ -62,7 +62,7 @@
 
         $('#appointmentDate').on("change.datetimepicker", function(e) {
             let date = $(this).data('appointmentdate');
-            eval(date).set('tgl_lahir', $('#appointmentDateInput').val());
+            eval(date).set('tanggal_lahir', $('#appointmentDateInput').val());
         });
     </script>
 @endsection

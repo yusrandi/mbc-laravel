@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\JenisSapi;
+use App\Models\Peternak;
 use App\Models\Sapi;
 use Intervention\Image\ImageManager;
 use Livewire\Component;
@@ -11,35 +12,37 @@ use Livewire\WithFileUploads;
 class WireSapiForm extends Component
 {
     use WithFileUploads;
-    public $selectedItemId, $jenis_sapi_id, $ertag_induk, $nama_sapi,  $tgl_lahir, $kelamin, $kondisi_lahir, $anak_ke, $ertag, $photo_depan, $photo_belakang, $photo_kiri, $photo_kanan;
+    public $selectedItemId, $jenis_sapi_id, $peternak_id, $ertag_induk, $nama_sapi,  $tanggal_lahir, $kelamin, $kondisi_lahir, $anak_ke, $ertag, $foto_depan, $foto_belakang, $foto_kiri, $foto_kanan;
 
     protected $rules = [
         'jenis_sapi_id' => 'required',
+        'peternak_id' => 'required',
         'ertag_induk' => 'required',
         'nama_sapi' => 'required',
-        'tgl_lahir' => 'required',
+        'tanggal_lahir' => 'required',
         'kelamin' => 'required',
         'kondisi_lahir' => 'required',
         'anak_ke' => 'required',
         'ertag' => 'required',
-        'photo_depan' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        'photo_belakang' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        'photo_kiri' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        'photo_kanan' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        'foto_depan' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        'foto_belakang' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        'foto_kiri' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        'foto_kanan' => 'required|image|mimes:jpg,jpeg,png|max:2048',
     ];
     protected $messages = [
         'jenis_sapi_id.required' => 'this field is required',
+        'peternak_id.required' => 'this field is required',
         'ertag_induk.required' => 'this field is required',
         'nama_sapi.required' => 'this field is required',
-        'tgl_lahir.required' => 'this field is required',
+        'tanggal_lahir.required' => 'this field is required',
         'kelamin.required' => 'this field is required',
         'kondisi_lahir.required' => 'this field is required',
         'anak_ke.required' => 'this field is required',
         'ertag.required' => 'this field is required',
-        'photo_depan.required' => 'this field is required',
-        'photo_belakang.required' => 'this field is required',
-        'photo_kiri.required' => 'this field is required',
-        'photo_kanan.required' => 'this field is required',
+        'foto_depan.required' => 'this field is required',
+        'foto_belakang.required' => 'this field is required',
+        'foto_kiri.required' => 'this field is required',
+        'foto_kanan.required' => 'this field is required',
     ];
 
     protected $listeners = [
@@ -51,7 +54,8 @@ class WireSapiForm extends Component
     public function render()
     {
         return view('livewire.wire-sapi-form',[
-            'jenis_sapis' => JenisSapi::orderBy('jenis','ASC')->get()
+            'jenis_sapis' => JenisSapi::orderBy('jenis','ASC')->get(),
+            'peternaks' => Peternak::orderBy('nama_peternak','ASC')->get()
         ]);
     }
 
@@ -70,6 +74,7 @@ class WireSapiForm extends Component
         
         $validateData = array_merge($validateData,[
             'jenis_sapi_id' => 'required',
+            'peternak_id' => 'required',
             'ertag_induk' => 'required',
             'nama_sapi' => 'required',
             'kelamin' => 'required',
@@ -80,26 +85,26 @@ class WireSapiForm extends Component
         ]);
         $data = $this->validate($validateData);
         
-        $res_photo_depan = $this->photo_depan;
-        if (!empty($res_photo_depan)){
-            $data['photo_depan'] = $this->handleImageIntervention($res_photo_depan);
+        $res_foto_depan = $this->foto_depan;
+        if (!empty($res_foto_depan)){
+            $data['foto_depan'] = $this->handleImageIntervention($res_foto_depan);
         }
-        $res_photo_belakang = $this->photo_belakang;
-        if (!empty($res_photo_belakang)){
-            $data['photo_belakang'] = $this->handleImageIntervention($res_photo_belakang);
-        }
-
-        $res_photo_kanan = $this->photo_kanan;
-        if (!empty($res_photo_kanan)){
-            $data['photo_kanan'] = $this->handleImageIntervention($res_photo_kanan);
-        }
-        $res_photo_kiri = $this->photo_kiri;
-        if (!empty($res_photo_kiri)){
-            $data['photo_kiri'] = $this->handleImageIntervention($res_photo_kiri);
+        $res_foto_belakang = $this->foto_belakang;
+        if (!empty($res_foto_belakang)){
+            $data['foto_belakang'] = $this->handleImageIntervention($res_foto_belakang);
         }
 
-        if ($this->tgl_lahir != null) {
-            $data['tgl_lahir'] = $this->tgl_lahir;
+        $res_foto_kanan = $this->foto_kanan;
+        if (!empty($res_foto_kanan)){
+            $data['foto_kanan'] = $this->handleImageIntervention($res_foto_kanan);
+        }
+        $res_foto_kiri = $this->foto_kiri;
+        if (!empty($res_foto_kiri)){
+            $data['foto_kiri'] = $this->handleImageIntervention($res_foto_kiri);
+        }
+
+        if ($this->tanggal_lahir != null) {
+            $data['tanggal_lahir'] = $this->tanggal_lahir;
         }
 
         $save = Sapi::find($this->selectedItemId)->update($data);
@@ -112,22 +117,22 @@ class WireSapiForm extends Component
     {
         $data  =  $this->validate();
 
-        $res_photo_depan = $this->photo_depan;
-        if (!empty($res_photo_depan)){
-            $data['photo_depan'] = $this->handleImageIntervention($res_photo_depan);
+        $res_foto_depan = $this->foto_depan;
+        if (!empty($res_foto_depan)){
+            $data['foto_depan'] = $this->handleImageIntervention($res_foto_depan);
         }
-        $res_photo_belakang = $this->photo_belakang;
-        if (!empty($res_photo_belakang)){
-            $data['photo_belakang'] = $this->handleImageIntervention($res_photo_belakang);
+        $res_foto_belakang = $this->foto_belakang;
+        if (!empty($res_foto_belakang)){
+            $data['foto_belakang'] = $this->handleImageIntervention($res_foto_belakang);
         }
 
-        $res_photo_kanan = $this->photo_kanan;
-        if (!empty($res_photo_kanan)){
-            $data['photo_kanan'] = $this->handleImageIntervention($res_photo_kanan);
+        $res_foto_kanan = $this->foto_kanan;
+        if (!empty($res_foto_kanan)){
+            $data['foto_kanan'] = $this->handleImageIntervention($res_foto_kanan);
         }
-        $res_photo_kiri = $this->photo_kiri;
-        if (!empty($res_photo_kiri)){
-            $data['photo_kiri'] = $this->handleImageIntervention($res_photo_kiri);
+        $res_foto_kiri = $this->foto_kiri;
+        if (!empty($res_foto_kiri)){
+            $data['foto_kiri'] = $this->handleImageIntervention($res_foto_kiri);
         }
 
         $save = Sapi::create($data);
@@ -142,6 +147,7 @@ class WireSapiForm extends Component
         $this->selectedItemId = $modelId;
         $model = Sapi::find($this->selectedItemId);
         $this->jenis_sapi_id = $model->jenis_sapi_id;
+        $this->peternak_id = $model->peternak_id;
         $this->ertag = $model->ertag;
         $this->ertag_induk = $model->ertag_induk;
         $this->nama_sapi = $model->nama_sapi;
@@ -153,6 +159,7 @@ class WireSapiForm extends Component
     public function cleanVars()
      {
         $this->jenis_sapi_id = null;
+        $this->peternak_id = null;
         $this->selectedItemId = null;
         $this->jenis_sapi_id = null;
         $this->ertag = null;
@@ -161,10 +168,10 @@ class WireSapiForm extends Component
         $this->kelamin = null;
         $this->kondisi_lahir = null;
         $this->anak_ke = null;
-        $this->photo_depan = null;
-        $this->photo_belakang = null;
-        $this->photo_kanan = null;
-        $this->photo_kiri = null;
+        $this->foto_depan = null;
+        $this->foto_belakang = null;
+        $this->foto_kanan = null;
+        $this->foto_kiri = null;
      }
 
     
@@ -175,11 +182,11 @@ class WireSapiForm extends Component
          $this->resetValidation();
      }
 
-     public function handleImageIntervention($res_photo)
+     public function handleImageIntervention($res_foto)
     {
-        $res_photo->store('public/photos');
-        $imageName = $res_photo->hashName();
-        $data['photo_kiri'] = $imageName;
+        $res_foto->store('public/photos');
+        $imageName = $res_foto->hashName();
+        $data['foto_kiri'] = $imageName;
 
         $manager = new ImageManager();
         $image = $manager->make('storage/photos/'.$imageName)->resize(100,100);

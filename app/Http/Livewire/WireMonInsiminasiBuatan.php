@@ -5,11 +5,14 @@ namespace App\Http\Livewire;
 use App\Models\InsiminasiBuatan;
 use App\Models\Sapi;
 use App\Models\Strow;
+use App\Models\User;
 use Livewire\Component;
 
 class WireMonInsiminasiBuatan extends Component
 {
     public $selectedItemId, $waktu_ib, $dosis_ib, $strow_id, $sapi_id;
+    public $startDate, $endDate, $sapiId, $userId, $searchTerm, $strowId;
+
 
      protected $rules = [
         'waktu_ib' => 'required',
@@ -29,12 +32,54 @@ class WireMonInsiminasiBuatan extends Component
         'refreshParent'=>'$refresh',
     ];
 
+    public function mount()
+    {
+        date_default_timezone_set("Asia/Makassar");
+        $this->startDate = now()->subDays(30)->format('Y/m/d');
+        $this->endDate = now()->format('Y/m/d');
+
+    }
+
+    public function resultData()
+    {
+        // dd("start ".$this->startDate.", end ".$this->endDate);
+
+        $haha = $this->userId;
+        return InsiminasiBuatan::with('sapi')
+        ->where(function ($query){
+            // if($this->searchTerm != ""){
+            //     $query->where('metode','like','%'.$this->searchTerm.'%');
+            //     $query->orWhere('hasil','like','%'.$this->searchTerm.'%');
+                
+            // }
+            if($this->sapiId != null){
+                $query->Where('sapi_id','like','%'.$this->sapiId.'%');
+            }
+            if($this->strowId != null){
+                $query->Where('strow_id','like','%'.$this->strowId.'%');
+            }
+            // if($this->statusId != null){
+            //     $query->Where('status','like','%'.$this->statusId.'%');
+            // }
+            
+        })
+        ->whereHas('sapi.peternak', function($q) use($haha) {
+            if($haha != null){
+                $q->where('user_id', $haha);
+            }
+        })
+        ->WhereBetween('waktu_ib',[$this->startDate, $this->endDate])
+        ->get();
+    }
+
     public function render()
     {
         return view('livewire.wire-mon-insiminasi-buatan',[
             'sapis' => Sapi::orderBy('nama_sapi','ASC')->get(),
             'strows' => Strow::orderBy('kode_batch','ASC')->get(),
-            'insiminasi_buatans' => InsiminasiBuatan::latest()->get()
+            'insiminasi_buatans' => $this->resultData(),
+            'users' => User::where('hak_akses',2)->get()
+
         ]);
     }
     public function selectedItem($itemId, $action){

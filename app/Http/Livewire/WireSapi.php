@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Peternak;
 use App\Models\Sapi;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 
 class WireSapi extends Component
 {
-    public $selectedItemId;
+    public $selectedItemId, $searchTerm, $peternak_id;
     protected $listeners = [
         'confirmed',
         'cancelled',
@@ -19,11 +20,29 @@ class WireSapi extends Component
         'isUpdate'
     ];
 
+    public function resultData()
+    {
+        return Sapi::with(['jenis_sapi','peternak'])
+        ->orderBy('nama_sapi','ASC')
+        ->where(function ($query){
+            if($this->searchTerm != ""){
+                $query->where('ertag','like','%'.$this->searchTerm.'%');
+                $query->orWhere('nama_sapi','like','%'.$this->searchTerm.'%');   
+                $query->orWhere('kelamin','like','%'.$this->searchTerm.'%');   
+            }
 
+            if($this->peternak_id != null){
+                $query->Where('peternak_id','like','%'.$this->peternak_id.'%');
+            }
+        })
+        ->get();
+    }
     public function render()
     {
+        // dd($this->resultData());
         return view('livewire.wire-sapi',[
-            'datas' => Sapi::with('jenis_sapi')->latest()->get()
+            'datas' => $this->resultData(),
+            'peternaks' => Peternak::orderBy('nama_peternak','ASC')->get()
         ]);
     }
 

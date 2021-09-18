@@ -48,7 +48,22 @@
     <div class="col-xl-9 col-lg-8">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Tabel Status Sapi</div>
+                <div class="col">
+                    <div class="card-title">Tabel Strow Sapi</div>
+
+                </div>
+                <div class="col">
+                    <select class="custom-select" wire:model="sapiId">
+                        <option value="">Please Choose</option>
+                        @foreach ($sapis as $item)
+                            <option value="{{ $item->id }}"> {{ $item->ertag }} </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col">
+                    <input wire:model="searchTerm" type="search" class="form-control header-search"
+                        placeholder="Search…" aria-label="Search">
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

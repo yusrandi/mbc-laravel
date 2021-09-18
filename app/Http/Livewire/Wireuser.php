@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class Wireuser extends Component
 {
-    public $hak_akses, $name, $email, $password, $selectedItemId;
+    public $hak_akses, $name, $email, $password, $selectedItemId, $searchTerm;
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:users',
@@ -32,8 +32,16 @@ class Wireuser extends Component
     }
     public function resultData()
     {
-        return User::orderBy('name','ASC')->where('hak_akses', $this->hak_akses)->get();
+        return User::orderBy('name','ASC')
+        ->where('hak_akses', $this->hak_akses)
+        ->where(function ($query){
+            if($this->searchTerm != ""){
+                $query->where('name','like','%'.$this->searchTerm.'%');
+            }  
+        })
+        ->get();
     }
+
     public function render()
     {
         return view('livewire.wireuser',[
@@ -68,7 +76,8 @@ class Wireuser extends Component
         
         $data['password'] = Hash::make($this->password);
         $data['hak_akses'] = $this->hak_akses;
-
+        $data['alamat'] = 'alamat';
+        $data['no_hp'] = 'no_hp';
         $save = User::create($data);
         $save ? $this->isSuccess("Data Berhasil Tersimpan") : $this->isError("Data Gagal Tersimpan");
 
@@ -88,7 +97,7 @@ class Wireuser extends Component
         if($this->password){
             $data['password'] = Hash::make($this->password);
         }
-
+        
         $save = User::find($this->selectedItemId)->update($data);
         $save ? $this->isSuccess("Data Berhasil diUbah") : $this->isError("Data Gagal diUbah");
 

@@ -14,4 +14,9 @@ class Sapi extends Model
     {
         return $this->belongsTo(JenisSapi::class);
     }
+    public function peternak()  
+    {
+        return $this->belongsTo(Peternak::class)->with('user');
+    }
+    
 }

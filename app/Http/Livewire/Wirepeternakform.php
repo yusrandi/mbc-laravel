@@ -11,10 +11,11 @@ use Livewire\Component;
 
 class Wirepeternakform extends Component
 {
-    public $desa_id, $kecamatan_id, $kabupaten_id, $kode_peternak, $nama_peternak, $no_hp, $tgl_lahir,  $jumlah_anggota, $luas_lahan, $kelompok, $selectedItemId;
+    public $desa_id, $user_id, $kecamatan_id, $kabupaten_id, $kode_peternak, $nama_peternak, $no_hp, $tgl_lahir,  $jumlah_anggota, $luas_lahan, $kelompok, $selectedItemId;
 
     protected $rules = [
         'desa_id' => 'required',
+        'user_id' => 'required',
         'kode_peternak' => 'required',
         'nama_peternak' => 'required',
         'no_hp' => 'required',
@@ -39,6 +40,7 @@ class Wirepeternakform extends Component
             'kabupatens' => Kabupaten::orderBy('name','ASC')->get(),
             'kecamatans' => Kecamatan::orderBy('name','ASC')->where('kabupaten_id',$this->kabupaten_id)->get(),
             'desas' => Desa::orderBy('name','ASC')->where('kecamatan_id',$this->kecamatan_id)->get(),
+            'users' => User::where('hak_akses',2)->get()
             // 'users' => User::where('level',2)->orderBy('name','ASC')->get()
         ]);
     }
@@ -62,6 +64,7 @@ class Wirepeternakform extends Component
         $this->kabupaten_id = $data->desa->kecamatan->kabupaten_id;
         $this->kecamatan_id = $data->desa->kecamatan_id;
         $this->desa_id = $data->desa_id;
+        $this->user_id = $data->user_id;
         $this->tgl_lahir = $data->tgl_lahir;
         $this->jumlah_anggota = $data->jumlah_anggota;
         $this->luas_lahan = $data->luas_lahan;
@@ -72,6 +75,7 @@ class Wirepeternakform extends Component
      {
         $this->selectedItemId = null;
         $this->desa_id = null;
+        $this->user_id = null;
         $this->kecamatan_id = null;
         $this->kabupaten_id = null;
         $this->kode_peternak = null;

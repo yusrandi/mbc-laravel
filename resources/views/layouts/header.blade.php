@@ -4,14 +4,14 @@
         <div class="d-flex">
             <a class="animated-arrow hor-toggle horizontal-navtoggle"><span></span></a>
             <a class="header-brand" href="href=    {{ url('/' . ($page = 'index')) }}">
-                <img src="{{ URL::asset('assets/images/brand/logo.png') }}" class="header-brand-img desktop-lgo"
-                    alt="Admintro logo">
-                <img src="{{ URL::asset('assets/images/brand/logo1.png') }}" class="header-brand-img dark-logo"
-                    alt="Admintro logo">
-                <img src="{{ URL::asset('assets/images/brand/favicon.png') }}" class="header-brand-img mobile-logo"
-                    alt="Admintro logo">
-                <img src="{{ URL::asset('assets/images/brand/favicon1.png') }}"
-                    class="header-brand-img darkmobile-logo" alt="Admintro logo">
+                <img src="{{ URL::asset('assets/images/brand/mbc.png') }}" class="header-brand-img desktop-lgo"
+                    alt="MBC logo">
+                <img src="{{ URL::asset('assets/images/brand/mbc1.png') }}" class="header-brand-img dark-logo"
+                    alt="MBC logo">
+                <img src="{{ URL::asset('assets/images/brand/mbc2.png') }}" class="header-brand-img mobile-logo"
+                    alt="MBC logo">
+                <img src="{{ URL::asset('assets/images/brand/mbc2.png') }}" class="header-brand-img darkmobile-logo"
+                    alt="MBC logo">
             </a>
             <div class="mt-1">
                 <form class="form-inline">
@@ -49,183 +49,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="dropdown header-message">
-                    <a class="nav-link icon" data-toggle="dropdown">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" width="24" height="24"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M20,2H4C2.897,2,2,2.897,2,4v12c0,1.103,0.897,2,2,2h3v3.767L13.277,18H20c1.103,0,2-0.897,2-2V4C22,2.897,21.103,2,20,2z M20,16h-7.277L9,18.233V16H4V4h16V16z" />
-                            <path d="M7 7H17V9H7zM7 11H14V13H7z" />
-                        </svg>
-                        <span class="badge badge-success side-badge">3</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow  animated">
-                        <div class="dropdown-header">
-                            <h6 class="mb-0">Messages</h6>
-                            <span class="badge badge-pill badge-primary ml-auto">View all</span>
-                        </div>
-                        <div class="header-dropdown-list message-menu" id="message-menu">
-                            <a class="dropdown-item border-bottom" href="#">
-                                <div class="d-flex align-items-center">
-                                    <div class="">
-                                        <span class="avatar avatar-md brround align-self-center cover-image"
-                                            data-image-src="{{ URL::asset('assets/images/users/1.jpg') }}"></span>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="pl-3">
-                                            <h6 class="mb-1">Jack Wright</h6>
-                                            <p class="fs-13 mb-1">All the best your template awesome</p>
-                                            <div class="small text-muted">
-                                                3 hours ago
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item border-bottom">
-                                <div class="d-flex align-items-center">
-                                    <div class="">
-                                        <span class="avatar avatar-md brround align-self-center cover-image"
-                                            data-image-src="{{ URL::asset('assets/images/users/2.jpg') }}"></span>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="pl-3">
-                                            <h6 class="mb-1">Lisa Rutherford</h6>
-                                            <p class="fs-13 mb-1">Hey! there I'm available</p>
-                                            <div class="small text-muted">
-                                                5 hour ago
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item border-bottom">
-                                <div class="d-flex align-items-center">
-                                    <div class="">
-                                        <span class="avatar avatar-md brround align-self-center cover-image"
-                                            data-image-src="{{ URL::asset('assets/images/users/3.jpg') }}"></span>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="pl-3">
-                                            <h6 class="mb-1">Blake Walker</h6>
-                                            <p class="fs-13 mb-1">Just created a new blog post</p>
-                                            <div class="small text-muted">
-                                                45 mintues ago
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item border-bottom">
-                                <div class="d-flex align-items-center">
-                                    <div class="">
-                                        <span class="avatar avatar-md brround align-self-center cover-image"
-                                            data-image-src="{{ URL::asset('assets/images/users/4.jpg') }}"></span>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="pl-3">
-                                            <h6 class="mb-1">Fiona Morrison</h6>
-                                            <p class="fs-13 mb-1">Added new comment on your photo</p>
-                                            <div class="small text-muted">
-                                                2 days ago
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item border-bottom">
-                                <div class="d-flex align-items-center">
-                                    <div class="">
-                                        <span class="avatar avatar-md brround align-self-center cover-image"
-                                            data-image-src="{{ URL::asset('assets/images/users/6.jpg') }}"></span>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="pl-3">
-                                            <h6 class="mb-1">Stewart Bond</h6>
-                                            <p class="fs-13 mb-1">Your payment invoice is generated</p>
-                                            <div class="small text-muted">
-                                                3 days ago
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item border-bottom">
-                                <div class="d-flex align-items-center">
-                                    <div class="">
-                                        <span class="avatar avatar-md brround align-self-center cover-image"
-                                            data-image-src="{{ URL::asset('assets/images/users/7.jpg') }}"></span>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="pl-3">
-                                            <h6 class="mb-1">Faith Dickens</h6>
-                                            <p class="fs-13 mb-1">Please check your mail....</p>
-                                            <div class="small text-muted">
-                                                4 days ago
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class=" text-center p-2 border-top">
-                            <a href="#" class="">See All Messages</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="dropdown header-notify">
-                    <a class="nav-link icon" data-toggle="dropdown">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" width="24" height="24"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M19 13.586V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v3.586l-1.707 1.707C3.105 15.48 3 15.734 3 16v2c0 .553.447 1 1 1h16c.553 0 1-.447 1-1v-2c0-.266-.105-.52-.293-.707L19 13.586zM19 17H5v-.586l1.707-1.707C6.895 14.52 7 14.266 7 14v-4c0-2.757 2.243-5 5-5s5 2.243 5 5v4c0 .266.105.52.293.707L19 16.414V17zM12 22c1.311 0 2.407-.834 2.818-2H9.182C9.593 21.166 10.689 22 12 22z" />
-                        </svg>
-                        <span class="pulse "></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow  animated">
-                        <div class="dropdown-header">
-                            <h6 class="mb-0">Notifications</h6>
-                            <span class="badge badge-pill badge-primary ml-auto">View all</span>
-                        </div>
-                        <div class="notify-menu">
-                            <a href="#" class="dropdown-item border-bottom d-flex pl-4">
-                                <div class="notifyimg bg-info-transparent text-info"> <i class="ti-comment-alt"></i>
-                                </div>
-                                <div>
-                                    <div class="font-weight-normal1">Message Sent.</div>
-                                    <div class="small text-muted">3 hours ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item border-bottom d-flex pl-4">
-                                <div class="notifyimg bg-primary-transparent text-primary"> <i
-                                        class="ti-shopping-cart-full"></i> </div>
-                                <div>
-                                    <div class="font-weight-normal1"> Order Placed</div>
-                                    <div class="small text-muted">5 hour ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item border-bottom d-flex pl-4">
-                                <div class="notifyimg bg-warning-transparent text-warning"> <i class="ti-calendar"></i>
-                                </div>
-                                <div>
-                                    <div class="font-weight-normal1"> Event Started</div>
-                                    <div class="small text-muted">45 mintues ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item border-bottom d-flex pl-4">
-                                <div class="notifyimg bg-success-transparent text-success"> <i class="ti-desktop"></i>
-                                </div>
-                                <div>
-                                    <div class="font-weight-normal1">Your Admin lanuched</div>
-                                    <div class="small text-muted">1 daya ago</div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class=" text-center p-2 border-top">
-                            <a href="#" class="">View All Notifications</a>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="dropdown profile-dropdown">
                     <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
                         <span>
@@ -235,7 +59,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
                         <div class="text-center">
-                            <a href="#" class="dropdown-item text-center user pb-0 font-weight-bold">Jessica</a>
+                            <a href="#"
+                                class="dropdown-item text-center user pb-0 font-weight-bold">{{ auth()->user()->name }}</a>
                             <span class="text-center user-semi-title">Web Designer</span>
                             <div class="dropdown-divider"></div>
                         </div>

@@ -36,7 +36,6 @@
     <script src="{{ asset('assets/plugins/moment/moment.js') }}"></script>
     <script src="{{ asset('assets/plugins/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js') }}">
     </script>
-
     <script>
         window.addEventListener('openModal', event => {
             $("#user-form-modal").modal('show');
@@ -72,6 +71,24 @@
             let date = $(this).data('appointmentdate');
             eval(date).set('tanggal_performa', $('#appointmentDateInput').val());
 
+        });
+
+        $('#appointmentDateStart').datetimepicker({
+            // format: 'L',
+            format: 'YYYY/MM/DD'
+        });
+        $('#appointmentDateStart').on("change.datetimepicker", function(e) {
+            let date = $(this).data('appointmentdatestart');
+            eval(date).set('startDate', $('#appointmentDateStartInput').val());
+
+        });
+        $('#appointmentDateEnd').datetimepicker({
+            format: 'YYYY/MM/DD'
+        });
+
+        $('#appointmentDateEnd').on("change.datetimepicker", function(e) {
+            let date = $(this).data('appointmentdateend');
+            eval(date).set('endDate', $('#appointmentDateEndInput').val());
         });
     </script>
 @endsection

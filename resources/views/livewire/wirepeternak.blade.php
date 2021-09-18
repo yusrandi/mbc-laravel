@@ -6,7 +6,28 @@
      <div class="col-xl-12 col-lg-12">
          <div class="card">
              <div class="card-header">
-                 <div class="card-title">Tabel Peternak</div>
+                 <div class="col-6">
+                     <div class="card-title">Tabel Peternak</div>
+                 </div>
+                 <div class="col-6 row">
+
+
+                     <div class="col">
+                         <select class="custom-select" wire:model="userId">
+                             <option value="">Silahkan pilih pendamping</option>
+                             @foreach ($users as $item)
+                                 <option value="{{ $item->id }}"> {{ $item->name }} </option>
+                             @endforeach
+                         </select>
+                     </div>
+
+                     <div class="col">
+                         <input wire:model="searchTerm" type="search" class="form-control header-search"
+                             placeholder="Search…" aria-label="Search">
+                     </div>
+
+
+                 </div>
              </div>
              <div class="card-body">
                  <div class="table-responsive">
@@ -16,6 +37,7 @@
                              <thead>
                                  <tr>
                                      <th>#</th>
+                                     <th>Pendamping</th>
                                      <th>Kode</th>
                                      <th>Nama Peternak</th>
                                      <th>Tgl Lahir</th>
@@ -33,6 +55,7 @@
                                  @foreach ($peternaks as $item)
                                      <tr>
                                          <td>{{ $loop->iteration }}</td>
+                                         <td>{{ $item->user->name }}</td>
                                          <td>{{ $item->kode_peternak }}</td>
                                          <td>{{ $item->nama_peternak }}</td>
                                          <td>{{ $item->tgl_lahir }}</td>

@@ -4,11 +4,12 @@ namespace App\Http\Livewire;
 
 use App\Models\PeriksaKebuntingan;
 use App\Models\Sapi;
+use App\Models\User;
 use Livewire\Component;
 
 class WireMonPeriksaKebuntingan extends Component
 {
-    public $selectedItemId, $waktu_pk, $metode, $hasil, $sapi_id;
+    public $selectedItemId, $waktu_pk, $metode, $hasil, $sapi_id, $startDate, $endDate, $searchTerm, $sapiId, $userId;
 
      protected $rules = [
         'waktu_pk' => 'required',
@@ -31,11 +32,49 @@ class WireMonPeriksaKebuntingan extends Component
         'isError',
         'refreshParent'=>'$refresh',
     ];
+
+    public function mount()
+    {
+        date_default_timezone_set("Asia/Makassar");
+        $today = date('Y/m/d H:s');
+        $this->startDate = now()->subDays(30)->format('Y/m/d');
+        $this->endDate = now()->format('Y/m/d');
+
+    }
+    public function resultData()
+    {
+        // dd("start ".$this->startDate.", end ".$this->endDate);
+
+        $haha = $this->userId;
+        return PeriksaKebuntingan::with('sapi')
+        ->where(function ($query){
+            if($this->searchTerm != ""){
+                $query->where('metode','like','%'.$this->searchTerm.'%');
+                $query->orWhere('hasil','like','%'.$this->searchTerm.'%');
+                
+            }
+            if($this->sapiId != null){
+                $query->Where('sapi_id','like','%'.$this->sapiId.'%');
+            }
+            // if($this->statusId != null){
+            //     $query->Where('status','like','%'.$this->statusId.'%');
+            // }
+            
+        })
+        ->whereHas('sapi.peternak', function($q) use($haha) {
+            if($haha != null){
+                $q->where('user_id', $haha);
+            }
+        })
+        ->WhereBetween('waktu_pk',[$this->startDate, $this->endDate])
+        ->get();
+    }
     public function render()
     {
         return view('livewire.wire-mon-periksa-kebuntingan',[
-            'periksa_kebuntingans' => PeriksaKebuntingan::latest()->get(),
-            'sapis' => Sapi::orderBy('nama_sapi','ASC')->get()
+            'periksa_kebuntingans' => $this->resultData(),
+            'sapis' => Sapi::orderBy('nama_sapi','ASC')->get(),
+            'users' => User::where('hak_akses',2)->get()
         ]);
     }
 

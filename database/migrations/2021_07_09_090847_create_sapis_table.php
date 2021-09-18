@@ -19,6 +19,9 @@ class CreateSapisTable extends Migration
             $table->unsignedBigInteger('jenis_sapi_id')->nullable();
             $table->foreign('jenis_sapi_id')->references('id')->on('jenis_sapis');
 
+            $table->unsignedBigInteger('peternak_id')->nullable();
+            $table->foreign('peternak_id')->references('id')->on('peternaks');
+
             $table->string('ertag')->unique();
             $table->string('ertag_induk')->unique();
             $table->string('nama_sapi');

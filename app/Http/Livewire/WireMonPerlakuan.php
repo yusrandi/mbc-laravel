@@ -3,13 +3,16 @@
 namespace App\Http\Livewire;
 
 use App\Models\Perlakuan;
+use App\Models\Sapi;
+use App\Models\User;
 use Livewire\Component;
 
 class WireMonPerlakuan extends Component
 {
     public $selectedItemId;
+    public $startDate, $endDate, $sapiId, $userId;
 
-    
+
     protected $listeners = [
         'confirmed',
         'cancelled',
@@ -18,10 +21,48 @@ class WireMonPerlakuan extends Component
         'isError',
         'refreshParent'=>'$refresh',
     ];
+
+    public function mount()
+    {
+        date_default_timezone_set("Asia/Makassar");
+        $this->startDate = now()->subDays(30)->format('Y/m/d');
+        $this->endDate = now()->format('Y/m/d');
+
+    }
+    public function resultData()
+    {
+        // dd("start ".$this->startDate.", end ".$this->endDate);
+
+        $haha = $this->userId;
+        return Perlakuan::with('sapi')
+        ->where(function ($query){
+            // if($this->searchTerm != ""){
+            //     $query->where('metode','like','%'.$this->searchTerm.'%');
+            //     $query->orWhere('hasil','like','%'.$this->searchTerm.'%');
+                
+            // }
+            if($this->sapiId != null){
+                $query->Where('sapi_id','like','%'.$this->sapiId.'%');
+            }
+            // if($this->statusId != null){
+            //     $query->Where('status','like','%'.$this->statusId.'%');
+            // }
+            
+        })
+        ->whereHas('sapi.peternak', function($q) use($haha) {
+            if($haha != null){
+                $q->where('user_id', $haha);
+            }
+        })
+        ->WhereBetween('tgl_perlakuan',[$this->startDate, $this->endDate])
+        ->get();
+    }
     public function render()
     {
         return view('livewire.wire-mon-perlakuan',[
-            'perlakuans' => Perlakuan::with('sapi')->latest()->get()
+            'perlakuans' => $this->resultData(),
+            'sapis' => Sapi::orderBy('nama_sapi','ASC')->get(),
+            'users' => User::where('hak_akses',2)->get()
         ]);
     }
 

@@ -21,6 +21,18 @@
                     @enderror
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Peternak<span class="text-danger">*</span></label>
+                    <select class="custom-select" wire:model="peternak_id">
+                        <option value="">Please Choose</option>
+                        @foreach ($peternaks as $item)
+                            <option value="{{ $item->id }}"> {{ $item->nama_peternak }} </option>
+                        @endforeach
+                    </select>
+                    @error('peternak_id')
+                        <small class="mt-2 text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="form-group">
                     <label class="form-label">Ertag<span class="text-danger">*</span></label>
                     <input wire:model="ertag" type="text" class="form-control" placeholder="e.g: T001/QAZ/007">
                     @error('ertag')
@@ -48,7 +60,7 @@
                         <input type="text" class="form-control datetimepicker-input" data-target="#appointmentDate"
                             id="appointmentDateInput" data-toggle="datetimepicker" placeholder="Tanggal Lahir">
                     </div>
-                    @error('tgl_lahir')
+                    @error('tanggal_lahir')
                         <small class="mt-2 text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -78,52 +90,52 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Foto Depan<span class="text-danger">*</span></label>
-                            <input class="form-control" type="file" id="formFile" wire:model="photo_depan">
-                            @error('photo_depan')
+                            <input class="form-control" type="file" id="formFile" wire:model="foto_depan">
+                            @error('foto_depan')
                                 <small class="mt-2 text-danger">{{ $message }}</small>
                             @enderror
 
-                            @if ($photo_depan)
-                                <img src="{{ $photo_depan->temporaryUrl() }}" width="100%" class="mt-2">
+                            @if ($foto_depan)
+                                <img src="{{ $foto_depan->temporaryUrl() }}" width="100%" class="mt-2">
                             @endif
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label>Foto Belakang<span class="text-danger">*</span></label>
-                            <input class="form-control" type="file" id="formFile" wire:model="photo_belakang">
-                            @error('photo_belakang')
+                            <input class="form-control" type="file" id="formFile" wire:model="foto_belakang">
+                            @error('foto_belakang')
                                 <small class="mt-2 text-danger">{{ $message }}</small>
                             @enderror
 
-                            @if ($photo_belakang)
-                                <img src="{{ $photo_belakang->temporaryUrl() }}" width="100%" class="mt-2">
+                            @if ($foto_belakang)
+                                <img src="{{ $foto_belakang->temporaryUrl() }}" width="100%" class="mt-2">
                             @endif
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label>Foto Samping Kiri<span class="text-danger">*</span></label>
-                            <input class="form-control" type="file" id="formFile" wire:model="photo_kiri">
-                            @error('photo_kiri')
+                            <input class="form-control" type="file" id="formFile" wire:model="foto_kiri">
+                            @error('foto_kiri')
                                 <small class="mt-2 text-danger">{{ $message }}</small>
                             @enderror
 
-                            @if ($photo_kiri)
-                                <img src="{{ $photo_kiri->temporaryUrl() }}" width="100%" class="mt-2">
+                            @if ($foto_kiri)
+                                <img src="{{ $foto_kiri->temporaryUrl() }}" width="100%" class="mt-2">
                             @endif
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label>Foto Samping Kanan<span class="text-danger">*</span></label>
-                            <input class="form-control" type="file" id="formFile" wire:model="photo_kanan">
-                            @error('photo_kanan')
+                            <input class="form-control" type="file" id="formFile" wire:model="foto_kanan">
+                            @error('foto_kanan')
                                 <small class="mt-2 text-danger">{{ $message }}</small>
                             @enderror
 
-                            @if ($photo_kanan)
-                                <img src="{{ $photo_kanan->temporaryUrl() }}" width="100%" class="mt-2">
+                            @if ($foto_kanan)
+                                <img src="{{ $foto_kanan->temporaryUrl() }}" width="100%" class="mt-2">
                             @endif
                         </div>
                     </div>

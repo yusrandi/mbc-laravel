@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('css')
 @endsection
+
 @section('page-header')
     <!--Page header-->
     <div class="page-header">
