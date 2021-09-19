@@ -67,3 +67,5 @@ Route::put('/perlakuan/{id}', [PerlakuanController::class, 'update']);
 Route::delete('/perlakuan/{id}', [PerlakuanController::class, 'destroy']);
 
 Route::get('/notif/{id}', [NotifikasiController::class, 'index']);
+
+// halo
